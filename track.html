@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My Orders</title>
+</head>
+<body>
+<h1>My Orders</h1>
+<div id="orders"></div>
+<script>
+let user = localStorage.getItem("loggedInUser");
+if (!user) {
+  window.location.href = "login.html";
+}
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+let myOrders = orders.filter(o => o.user === user);
+let div = document.getElementById("orders");
+function getStatus(orderTime) {
+  let diff = (Date.now() - orderTime) / 1000;
+  if (diff < 30) return "Order Placed";
+  if (diff < 60) return "Shipped";
+  if (diff < 90) return "Out for Delivery";
+  return "Delivered";
+}
+myOrders.forEach(order => {
+  let status = getStatus(order.time);
+  div.innerHTML += `
+    <div style="border:1px solid #ccc;padding:15px;margin:10px;">
+      <p><b>Order ID:</b> ${order.orderId}</p>
+      <p><b>Status:</b> ${status}</p>
+      <p><b>Items:</b> ${order.items.length}</p>
+    </div>
+  `;
+});
+</script>
+</body>
+</html>

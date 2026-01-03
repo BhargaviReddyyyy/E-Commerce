@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Your Cart</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.cart-item {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  margin: 15px;
+  padding: 10px;
+  border-radius: 6px;
+}
+.cart-item img {
+  width: 100px;
+  height: 120px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+.cart-info {
+  flex: 1;
+}
+.remove-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<h1 style="padding:20px;">Your Cart</h1>
+<div id="cartItems"></div>
+<h2 style="padding:20px;">
+  Total: ₹<span id="total">0</span>
+</h2>
+<h3 style="padding:20px;">Delivery Address</h3>
+<textarea id="address" style="margin:20px;width:300px;height:80px;"></textarea>
+<br>
+<button onclick="placeOrder()" style="margin:20px;">Place Order</button>
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cartDiv = document.getElementById("cartItems");
+let total = 0;
+function renderCart() {
+  cartDiv.innerHTML = "";
+  total = 0;
+  cart.forEach((item, index) => {
+    total += item.price;
+    cartDiv.innerHTML += `
+      <div class="cart-item">
+        <img src="${item.img}">
+        <div class="cart-info">
+          <h4>${item.name.toUpperCase()}</h4>
+          <p>₹${item.price}</p>
+        </div>
+        <button class="remove-btn" onclick="removeItem(${index})">
+          Remove
+        </button>
+      </div>
+    `;
+  });
+  document.getElementById("total").innerText = total;
+}
+function removeItem(index) {
+  cart.splice(index, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+function placeOrder() {
+  let user = localStorage.getItem("loggedInUser");
+  if (!user) {
+    alert("Please login first");
+    window.location.href = "login.html";
+    return;
+  }
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let address = document.getElementById("address").value;
+  if (cart.length === 0) {
+    alert("Cart is empty");
+    return;
+  }
+  if (!address) {
+    alert("Please enter address");
+    return;
+  }
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+  let order = {
+    orderId: "ORD" + Date.now(),
+    user: user,
+    items: cart,
+    address: address,
+    time: Date.now()
+  };
+  orders.push(order);
+  localStorage.setItem("orders", JSON.stringify(orders));
+  localStorage.removeItem("cart");
+  window.location.href = "track.html";
+}
+renderCart();
+</script>
+</body>
+</html>

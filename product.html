@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Product Details</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div style="padding:30px;">
+  <img id="pimg" style="width:300px;">
+  <h2 id="pname"></h2>
+  <h3 id="pprice"></h3>
+  <button onclick="add()">Add to Cart</button>
+</div>
+<script>
+let p = JSON.parse(localStorage.getItem("product"));
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+document.getElementById("pimg").src = p.img;
+document.getElementById("pname").innerText = p.name.toUpperCase();
+document.getElementById("pprice").innerText = "₹" + p.price;
+function add() {
+  cart.push({ name: p.name, price: p.price });
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Added to cart ✅");
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>EasyBuy</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="splash">
+  <img src="images/logo1.png" alt="EasyBuy Logo">
+</div>
+<header>
+  <div class="logo">
+  <img src="images/logo1.png" alt="EasyBuy" height="40">
+</div>
+
+  <input type="text" id="searchBox" placeholder="Search products..." onkeyup="searchProducts()">
+  <div class="profile" onclick="goToOrders()">
+    👤 My Orders
+  </div>
+  <div class="cart" onclick="goToCart()">
+    🛒 Cart (<span id="cartCount">0</span>)
+  </div>
+</header>
+<nav>
+  <button onclick="showCategory('men')">Men</button>
+  <button onclick="showCategory('women')">Women</button>
+  <button onclick="showCategory('kids')">Kids</button>
+  <button onclick="showCategory('electronics')">Electronics</button>
+</nav>
+<section id="categories">
+  <div class="category-box" onclick="showCategory('men')">
+    <h2>Men</h2>
+    <p>Shirts • Watches</p>
+  </div>
+  <div class="category-box" onclick="showCategory('women')">
+    <h2>Women</h2>
+    <p>Kurtas • Sarees • Watches</p>
+  </div>
+  <div class="category-box" onclick="showCategory('kids')">
+    <h2>Kids</h2>
+    <p>Kids Collection</p>
+  </div>
+  <div class="category-box" onclick="showCategory('electronics')">
+    <h2>Electronics</h2>
+    <p>Gadgets & Accessories</p>
+  </div>
+</section>
+<section id="recentSection">
+  <h2 style="padding:20px;">Recently Viewed</h2>
+  <div id="recentProducts"></div>
+</section>
+<button id="backBtn" onclick="backToCategories()" style="display:none;margin:20px;">
+  ⬅ Back to Categories
+</button>
+<section id="products"></section>
+<script src="script.js"></script>
+</body>
+</html>
